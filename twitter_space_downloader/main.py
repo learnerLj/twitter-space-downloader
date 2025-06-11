@@ -47,6 +47,7 @@ class TwitterSpaceDownloader:
         # 会话管理
         self.session = None
         self.connector = None
+        self.cookies = None  # 添加cookie缓存
 
         # 进度统计
         self.stats = {
@@ -67,6 +68,57 @@ class TwitterSpaceDownloader:
         logging.getLogger("asyncio").setLevel(logging.CRITICAL)
         # 禁用根日志记录器的SSL错误
         logging.getLogger().setLevel(logging.CRITICAL)
+
+        # 初始化请求头
+        self.headers = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+            "Accept": "*/*",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+            "DNT": "1",
+            "Origin": "https://x.com",
+            "Referer": "https://x.com/",
+            "Sec-Fetch-Dest": "empty",
+            "Sec-Fetch-Mode": "cors",
+            "Sec-Fetch-Site": "cross-site",
+            "Sec-CH-UA": '"Google Chrome";v="137", "Chromium";v="137", "Not/A)Brand";v="24"',
+            "Sec-CH-UA-Mobile": "?0",
+            "Sec-CH-UA-Platform": '"macOS"',
+        }
+
+        # 初始化时获取cookie
+        self._init_cookies()
+
+    def _init_cookies(self):
+        """初始化cookie"""
+        try:
+            ydl_opts = {
+                "quiet": True,
+                "no_warnings": True,
+                "cookiesfrombrowser": ("chrome",),
+            }
+
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                cookies = ydl.cookiejar
+
+                # 将cookie转换为aiohttp可用的格式
+                self.cookies = {}
+                for cookie in cookies:
+                    # 只使用name和value，忽略其他属性
+                    if cookie.domain.endswith("twitter.com") or cookie.domain.endswith(
+                        "x.com"
+                    ):
+                        self.cookies[cookie.name] = cookie.value
+
+            if self.cookies:
+                self.console.print("✅ Cookie已从Chrome浏览器获取", style="green")
+            else:
+                self.console.print(
+                    "⚠️ 未找到Twitter/X的Cookie，请确保已登录", style="yellow"
+                )
+        except Exception as e:
+            self.console.print(f"⚠️ 获取Cookie失败: {e}", style="yellow")
+            self.cookies = {}
 
     async def __aenter__(self):
         """异步上下文管理器入口"""
@@ -215,7 +267,10 @@ class TwitterSpaceDownloader:
         self.console.print(f"正在下载播放列表: {stream_url}")
 
         try:
-            async with self.session.get(stream_url) as response:
+            # 使用cookie发送请求
+            async with self.session.get(
+                stream_url, cookies=self.cookies, headers=self.headers
+            ) as response:
                 content = await response.text()
 
                 async with aio_open(output_file, "w", encoding="utf-8") as f:
@@ -267,7 +322,9 @@ class TwitterSpaceDownloader:
                 try:
                     # 为单个请求设置更长的超时时间
                     timeout = aiohttp.ClientTimeout(total=30, connect=10)
-                    async with self.session.get(url, timeout=timeout) as response:
+                    async with self.session.get(
+                        url, timeout=timeout, cookies=self.cookies, headers=self.headers
+                    ) as response:
                         # 将数据读取到内存中
                         data = bytearray()
                         async for chunk in response.content.iter_chunked(8192):
