@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "twitter-space-downloader"
-version = "1.4.0"
-description = "高性能异步Twitter/X Space下载器，支持并发下载和自动合并"
+version = "1.4.1"
+description = "High-performance asynchronous Twitter/X Space downloader with concurrent download and automatic merging"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 license = {file = "LICENSE"}
 authors = [
     {name = "Mike", email = "mike@example.com"}
@@ -47,9 +47,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/twitter-space-downloader"
-Repository = "https://github.com/yourusername/twitter-space-downloader"
-Issues = "https://github.com/yourusername/twitter-space-downloader/issues"
+Homepage = "https://github.com/learnerlj/twitter-space-downloader"
+Repository = "https://github.com/learnerlj/twitter-space-downloader"
+Issues = "https://github.com/learnerlj/twitter-space-downloader/issues"
 
 [project.scripts]
 twitter-space-downloader = "twitter_space_downloader.main:cli_main"
@@ -64,6 +64,6 @@ line-length = 88
 target-version = ['py37']
 
 [tool.mypy]
-python_version = "3.7"
+python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true 

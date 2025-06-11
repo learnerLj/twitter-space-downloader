@@ -1,43 +1,43 @@
-# Twitter Space Downloader - 项目完成总结
+# Twitter Space Downloader - Project Completion Summary
 
-## 🎉 项目状态: 已完成并可发布
+## 🎉 Project Status: Completed and Ready for Release
 
-这是一个**高性能异步Twitter/X Space下载器**，经过完整的开发、测试和打包，现在可以作为Python包发布到PyPI。
+This is a **high-performance asynchronous Twitter/X Space downloader** that has been fully developed, tested, and packaged, now ready to be released as a Python package on PyPI.
 
-## 📋 核心功能
+## 📋 Core Features
 
-### ✅ 异步高并发下载
-- **100+并发连接**支持，显著提升下载速度
-- **智能重试机制**，确保下载稳定性
-- **内存流式处理**，零临时文件，节省磁盘空间
+### ✅ Asynchronous High-Concurrency Download
+- **100+ concurrent connections** support, significantly improving download speed
+- **Smart retry mechanism**, ensuring download stability
+- **Memory streaming processing**, zero temporary files, saving disk space
 
-### ✅ 用户体验优化
-- **Rich进度条**，美观的彩色控制台输出
-- **实时统计**显示下载进度、速度、成功率
-- **优雅中断处理**，Ctrl+C立即停止并清理缓存
-- **简洁输出**，移除重复和冗余信息
+### ✅ User Experience Optimization
+- **Rich progress bar**, beautiful colored console output
+- **Real-time statistics** display download progress, speed, and success rate
+- **Elegant interrupt handling**, Ctrl+C immediately stops and cleans up cache
+- **Concise output**, removing duplicate and redundant information
 
-### ✅ 技术架构先进
-- **Python异步编程**(aiohttp, asyncio)
-- **现代依赖管理**(仅需要Python库，无外部二进制依赖除ffmpeg)
-- **内存高效**处理，直接在内存中合并音频片段
-- **错误处理健壮**，包含完整的异常处理和资源清理
+### ✅ Advanced Technical Architecture
+- **Python asynchronous programming** (aiohttp, asyncio)
+- **Modern dependency management** (only requires Python libraries, no external binary dependencies except ffmpeg)
+- **Memory-efficient** processing, directly merging audio segments in memory
+- **Robust error handling**, including complete exception handling and resource cleanup
 
-## 🛠️ 技术栈
+## 🛠️ Technology Stack
 
-### Python库依赖
-- `aiohttp>=3.8.0` - 异步HTTP客户端
-- `aiofiles>=22.0.0` - 异步文件操作
-- `yt-dlp>=2023.1.6` - 流媒体URL提取
-- `ffmpeg-python>=0.2.0` - 音频合并
-- `rich>=13.0.0` - 美观的控制台输出
+### Python Library Dependencies
+- `aiohttp>=3.8.0` - Asynchronous HTTP client
+- `aiofiles>=22.0.0` - Asynchronous file operations
+- `yt-dlp>=2023.1.6` - Stream media URL extraction
+- `ffmpeg-python>=0.2.0` - Audio merging
+- `rich>=13.0.0` - Beautiful console output
 
-### 二进制依赖
-- `ffmpeg` - 唯一的外部二进制依赖，用于音频合并
+### Binary Dependencies
+- `ffmpeg` - The only external binary dependency, used for audio merging
 
-## 📦 发布准备
+## 📦 Release Preparation
 
-### ✅ 包结构完整
+### ✅ Complete Package Structure
 ```
 twitter-space-downloader/
 ├── twitter_space_downloader/
@@ -48,100 +48,90 @@ twitter-space-downloader/
 ├── LICENSE (MIT)
 ├── MANIFEST.in
 ├── requirements.txt
-├── build_and_publish.py
-├── test_install.py
-├── PUBLISHING.md
-└── SUMMARY.md
+├── SUMMARY.md
 ```
 
-### ✅ 命令行工具
-- **完整命令**: `twitter-space-downloader`
-- **简短别名**: `tsd`
-- **帮助功能**: `--help`
-- **可配置参数**: `--max-workers`, `--max-retries`, `--keep-temp`
+### ✅ Command Line Tools
+- **Full command**: `twitter-space-downloader`
+- **Short alias**: `tsd`
+- **Help feature**: `--help`
+- **Configurable parameters**: `--max-workers`, `--max-retries`, `--keep-temp`
 
-### ✅ 自动化脚本
-- `build_and_publish.py` - 构建和发布自动化
-- `test_install.py` - 安装验证测试
-- 支持本地测试、TestPyPI和正式PyPI发布
+## 🚀 Poetry Release Process
 
-## 🚀 发布流程
-
-### 1. 本地测试
+### 1. Build Package
 ```bash
-python build_and_publish.py --local
-python test_install.py
+poetry build
 ```
 
-### 2. 测试发布
+### 2. Publish to PyPI
 ```bash
-python build_and_publish.py --test
+poetry publish
 ```
 
-### 3. 正式发布
+If you need to configure PyPI Token, use:
 ```bash
-python build_and_publish.py --prod
+poetry config pypi-token.pypi <your-token>
 ```
 
-## 📖 用户安装方式
+## 📖 User Installation Methods
 
-### 从PyPI安装(推荐)
+### Install from PyPI (Recommended)
 ```bash
 pip install twitter-space-downloader
 ```
 
-### 使用方法
+### Usage
 ```bash
-# 基本用法
+# Basic usage
 twitter-space-downloader "https://twitter.com/i/spaces/1234567890"
 
-# 或使用简短别名
+# Or use the short alias
 tsd "https://twitter.com/i/spaces/1234567890"
 
-# 高级选项
+# Advanced options
 twitter-space-downloader --max-workers 150 --max-retries 5 "URL"
 ```
 
-## 🔧 开发历程回顾
+## 🔧 Development Journey Review
 
-### 主要优化阶段
+### Main Optimization Stages
 
-1. **初始版本** - 基本下载功能
-2. **异步重构** - 引入aiohttp和高并发
-3. **用户体验优化** - Rich进度条和错误处理
-4. **架构简化** - 删除aria2c依赖，纯Python实现
-5. **内存优化** - 流式处理，零临时文件
-6. **包发布准备** - 现代化打包和命令行工具
+1. **Initial version** - Basic download functionality
+2. **Asynchronous refactoring** - Introduction of aiohttp and high concurrency
+3. **User experience optimization** - Rich progress bar and error handling
+4. **Architecture simplification** - Removal of aria2c dependency, pure Python implementation
+5. **Memory optimization** - Streaming processing, zero temporary files
+6. **Package release preparation** - Modern packaging and command line tools
 
-### 关键技术决策
+### Key Technical Decisions
 
-- ✅ **选择Python生态** - 降低用户安装复杂度
-- ✅ **异步架构** - 充分利用I/O并发性能
-- ✅ **内存处理** - 避免大量临时文件
-- ✅ **现代打包** - pyproject.toml和规范化包结构
-- ✅ **用户体验优先** - 简洁命令和美观输出
+- ✅ **Choosing Python ecosystem** - Reducing user installation complexity
+- ✅ **Asynchronous architecture** - Fully utilizing I/O concurrency performance
+- ✅ **Memory processing** - Avoiding large temporary files
+- ✅ **Modern packaging** - pyproject.toml and standardized package structure
+- ✅ **User experience first** - Concise commands and beautiful output
 
-## 🎯 性能特点
+## 🎯 Performance Features
 
-- **下载速度**: 相比单线程提升10-50倍(根据网络和并发数)
-- **内存效率**: 流式处理，内存使用稳定
-- **磁盘友好**: 最小化临时文件创建
-- **用户友好**: 一键安装，简单命令
+- **Download speed**: 10-50 times faster than single-threaded (depending on network and concurrency)
+- **Memory efficiency**: Streaming processing, stable memory usage
+- **Disk friendly**: Minimizing temporary file creation
+- **User friendly**: One-click installation, simple commands
 
-## 📝 文档完整性
+## 📝 Documentation Completeness
 
-- ✅ **README.md** - 完整的使用说明和安装指南
-- ✅ **PUBLISHING.md** - 详细的发布流程文档
-- ✅ **LICENSE** - MIT开源许可证
-- ✅ **代码注释** - 完整的中文注释和文档字符串
+- ✅ **README.md** - Complete usage instructions and installation guide
+- ✅ **LICENSE** - MIT open source license
+- ✅ **Code comments** - Complete Chinese comments and docstrings
 
-## 🏆 项目成就
+## 🏆 Project Achievements
 
-这个项目成功实现了:
+This project successfully achieved:
 
-1. **技术目标** - 高性能异步下载器
-2. **用户目标** - 简单易用的命令行工具
-3. **开发目标** - 现代化Python包发布
-4. **维护目标** - 清晰的代码结构和文档
+1. **Technical goal** - High-performance asynchronous downloader
+2. **User goal** - Simple and easy-to-use command line tool
+3. **Development goal** - Modern Python package release
+4. **Maintenance goal** - Clear code structure and documentation
 
-**项目已准备好发布到PyPI，为用户提供专业级的Twitter Space下载解决方案！** 🚀 
+**The project is ready to be released to PyPI, providing users with a professional-level Twitter Space download solution!** 🚀 
