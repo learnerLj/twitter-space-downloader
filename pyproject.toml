@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
 authors = [
-    {name = "Mike", email = "mike@example.com"}
+    {name = "Michael Luo", email = "luoshitou9@gmail.com"}
 ]
 keywords = ["twitter", "space", "downloader", "audio", "async"]
 classifiers = [
